@@ -1,0 +1,6 @@
+# created by KDE Plasma, Mon Jan 19 03:53:14 2026
+#
+include "/usr/share/themes/Fluent-Dark/gtk-2.0/gtkrc"
+
+gtk-theme-name="Fluent-Dark"
+

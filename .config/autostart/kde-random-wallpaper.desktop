@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Random Wallpaper at Login
+Comment=Set random wallpaper when logging in
+Exec=/home/suikon/.local/bin/kde-random-wallpaper.sh
+Icon=preferences-desktop-wallpaper
+Type=Application
+X-KDE-autostart-after=panel
+OnlyShowIn=KDE;

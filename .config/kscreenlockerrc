@@ -1,0 +1,22 @@
+[Daemon]
+Autolock=true
+LockOnResume=true
+Timeout=5
+
+[Greeter]
+Theme=com.github.yeyushengfan258.Win11OS-dark
+WallpaperPlugin=org.kde.slideshow
+
+[Greeter][LnF][General]
+font=Segoe UI Variable,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+showMediaControls=true
+smallFont=Segoe UI Variable,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+
+[Greeter][Wallpaper][org.kde.image][General]
+Image=file:///home/suikon/Pictures/Wallpapers/
+PreviewImage=file:///home/suikon/Pictures/Wallpapers/
+SlideInterval=300
+SlidePaths=/home/suikon/Pictures/Wallpapers
+
+[Greeter][Wallpaper][org.kde.slideshow][General]
+Image=file:///usr/share/wallpapers/Nuvole/

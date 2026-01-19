@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Random Wallpaper
+Comment=Change to random wallpaper
+Exec=/home/suikon/.local/bin/kde-random-wallpaper.sh
+Icon=preferences-desktop-wallpaper
+Type=Application
+Categories=Utility;
