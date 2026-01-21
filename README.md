@@ -17,7 +17,8 @@ cd KdeRice
 
 | Componente | Tema |
 |------------|------|
-| Fuente | Segoe UI Variable |
+| Fuentes | Segoe UI + JetBrainsMono Nerd |
+| Terminal | Ghostty (default) |
 | Plasma | Win11OS-dark |
 | Iconos | Fluent |
 | Cursor | Fluent-dark-cursors |
@@ -38,8 +39,11 @@ cd KdeRice
 Si prefieres instalar manualmente:
 
 ```bash
-# Fuente
-yay -S ttf-segoe-ui-variable
+# Fuentes
+yay -S ttf-segoe-ui-variable ttf-jetbrains-mono-nerd
+
+# Terminal
+yay -S ghostty
 
 # Tema Plasma
 yay -S win11os-kde-theme-git

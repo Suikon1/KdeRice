@@ -1,0 +1,20 @@
+font-family = JetBrainsMono Nerd Font
+font-size = 12
+
+# Tamaño de ventana (columnas x filas)
+window-width = 110
+window-height = 30
+
+# Ajuste de redimensionamiento
+resize-overlay = never
+window-padding-x = 8
+window-padding-y = 8
+
+theme = catppuccin-mocha
+background-opacity = 0.8
+
+keybind = ctrl+shift+v=ignore
+keybind = performable:ctrl+v=paste_from_clipboard
+keybind = ctrl+shift+c=ignore
+keybind = performable:ctrl+c=copy_to_clipboard
+keybind = shift+enter=text:\x1b\r

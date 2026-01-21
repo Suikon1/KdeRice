@@ -42,12 +42,17 @@ echo ""
 # INSTALAR TEMAS
 # ============================================
 
-echo -e "${YELLOW}[1/6] Instalando fuente Segoe UI...${NC}"
-$AUR_HELPER -S --needed --noconfirm ttf-segoe-ui-variable 2>/dev/null || {
-    echo -e "${RED}No se pudo instalar Segoe UI, usando fuente alternativa${NC}"
+echo -e "${YELLOW}[1/7] Instalando fuentes (Segoe UI + JetBrainsMono)...${NC}"
+$AUR_HELPER -S --needed --noconfirm ttf-segoe-ui-variable ttf-jetbrains-mono-nerd 2>/dev/null || {
+    echo -e "${RED}No se pudo instalar algunas fuentes${NC}"
 }
 
-echo -e "${YELLOW}[2/6] Instalando tema Plasma Win11OS...${NC}"
+echo -e "${YELLOW}[2/7] Instalando terminal Ghostty...${NC}"
+$AUR_HELPER -S --needed --noconfirm ghostty 2>/dev/null || {
+    echo -e "${RED}No se pudo instalar Ghostty${NC}"
+}
+
+echo -e "${YELLOW}[3/7] Instalando tema Plasma Win11OS...${NC}"
 $AUR_HELPER -S --needed --noconfirm win11os-kde-theme-git 2>/dev/null || {
     echo "Instalando desde git..."
     git clone https://github.com/yeyushengfan258/Win11OS-kde.git /tmp/Win11OS-kde
@@ -55,28 +60,28 @@ $AUR_HELPER -S --needed --noconfirm win11os-kde-theme-git 2>/dev/null || {
     ./install.sh
 }
 
-echo -e "${YELLOW}[3/6] Instalando iconos Fluent...${NC}"
+echo -e "${YELLOW}[4/7] Instalando iconos Fluent...${NC}"
 $AUR_HELPER -S --needed --noconfirm fluent-icon-theme-git 2>/dev/null || {
     git clone https://github.com/vinceliuice/Fluent-icon-theme.git /tmp/Fluent-icon-theme
     cd /tmp/Fluent-icon-theme
     ./install.sh
 }
 
-echo -e "${YELLOW}[4/6] Instalando cursores Fluent...${NC}"
+echo -e "${YELLOW}[5/7] Instalando cursores Fluent...${NC}"
 $AUR_HELPER -S --needed --noconfirm fluent-cursor-theme-git 2>/dev/null || {
     git clone https://github.com/vinceliuice/Fluent-cursor-theme.git /tmp/Fluent-cursor-theme
     cd /tmp/Fluent-cursor-theme
     ./install.sh
 }
 
-echo -e "${YELLOW}[5/6] Instalando tema GTK Fluent...${NC}"
+echo -e "${YELLOW}[6/7] Instalando tema GTK Fluent...${NC}"
 $AUR_HELPER -S --needed --noconfirm fluent-gtk-theme-git 2>/dev/null || {
     git clone https://github.com/vinceliuice/Fluent-gtk-theme.git /tmp/Fluent-gtk-theme
     cd /tmp/Fluent-gtk-theme
     ./install.sh -c dark
 }
 
-echo -e "${YELLOW}[6/6] Instalando tema SDDM Win11...${NC}"
+echo -e "${YELLOW}[7/7] Instalando tema SDDM Win11...${NC}"
 $AUR_HELPER -S --needed --noconfirm sddm-theme-win11 2>/dev/null || {
     git clone https://github.com/yeyushengfan258/sddm-win11-theme.git /tmp/sddm-win11-theme
     cd /tmp/sddm-win11-theme
@@ -104,6 +109,43 @@ plasma-apply-cursortheme Fluent-dark-cursors 2>/dev/null || true
 echo -e "${YELLOW}Configurando SDDM...${NC}"
 sudo mkdir -p /etc/sddm.conf.d
 echo -e "[Theme]\nCurrent=win11-sddm-theme" | sudo tee /etc/sddm.conf.d/theme.conf > /dev/null
+
+# ============================================
+# CONFIGURAR GHOSTTY
+# ============================================
+
+echo -e "${YELLOW}Configurando Ghostty...${NC}"
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+mkdir -p ~/.config/ghostty
+
+# Copiar config desde el repo
+if [ -f "$SCRIPT_DIR/.config/ghostty/config" ]; then
+    cp "$SCRIPT_DIR/.config/ghostty/config" ~/.config/ghostty/
+else
+    # Config por defecto si no existe en repo
+    cat > ~/.config/ghostty/config << 'GHOSTTYEOF'
+font-family = JetBrainsMono Nerd Font
+font-size = 12
+window-width = 110
+window-height = 30
+resize-overlay = never
+window-padding-x = 8
+window-padding-y = 8
+theme = catppuccin-mocha
+background-opacity = 0.8
+GHOSTTYEOF
+fi
+
+# Establecer Ghostty como terminal por defecto
+echo -e "${YELLOW}Configurando Ghostty como terminal por defecto...${NC}"
+if command -v update-alternatives &> /dev/null; then
+    sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/ghostty 50 2>/dev/null || true
+fi
+
+# Configurar en KDE
+kwriteconfig6 --file ~/.config/kdeglobals --group General --key TerminalApplication ghostty 2>/dev/null || true
+kwriteconfig6 --file ~/.config/kdeglobals --group General --key TerminalService org.ghostty.Ghostty.desktop 2>/dev/null || true
 
 # ============================================
 # CONFIGURAR LOCK SCREEN
@@ -181,16 +223,18 @@ echo -e "${GREEN}╔════════════════════
 echo -e "${GREEN}║         ¡Instalación completa!       ║${NC}"
 echo -e "${GREEN}╚══════════════════════════════════════╝${NC}"
 echo ""
-echo "Temas instalados:"
-echo "  • Fuente: Segoe UI Variable"
+echo "Instalado:"
+echo "  • Fuentes: Segoe UI Variable + JetBrainsMono Nerd"
+echo "  • Terminal: Ghostty (default)"
 echo "  • Plasma: Win11OS-dark"
 echo "  • Iconos: Fluent"
 echo "  • Cursor: Fluent-dark-cursors"
 echo "  • GTK: Fluent-Dark"
 echo "  • SDDM: win11-sddm-theme"
 echo ""
-echo "Configuraciones aplicadas:"
-echo "  • Lock screen: Win11OS theme + Segoe UI font"
+echo "Configuraciones:"
+echo "  • Ghostty: transparencia, catppuccin-mocha"
+echo "  • Lock screen: Win11OS theme + Segoe UI"
 echo "  • Fecha: dd/MM/yyyy (formato mundial)"
 echo "  • Panel: auto-hide + floating"
 echo ""
