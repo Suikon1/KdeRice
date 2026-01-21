@@ -42,7 +42,12 @@ echo ""
 # INSTALAR TEMAS
 # ============================================
 
-echo -e "${YELLOW}[1/5] Instalando tema Plasma Win11OS...${NC}"
+echo -e "${YELLOW}[1/6] Instalando fuente Segoe UI...${NC}"
+$AUR_HELPER -S --needed --noconfirm ttf-segoe-ui-variable 2>/dev/null || {
+    echo -e "${RED}No se pudo instalar Segoe UI, usando fuente alternativa${NC}"
+}
+
+echo -e "${YELLOW}[2/6] Instalando tema Plasma Win11OS...${NC}"
 $AUR_HELPER -S --needed --noconfirm win11os-kde-theme-git 2>/dev/null || {
     echo "Instalando desde git..."
     git clone https://github.com/yeyushengfan258/Win11OS-kde.git /tmp/Win11OS-kde
@@ -50,28 +55,28 @@ $AUR_HELPER -S --needed --noconfirm win11os-kde-theme-git 2>/dev/null || {
     ./install.sh
 }
 
-echo -e "${YELLOW}[2/5] Instalando iconos Fluent...${NC}"
+echo -e "${YELLOW}[3/6] Instalando iconos Fluent...${NC}"
 $AUR_HELPER -S --needed --noconfirm fluent-icon-theme-git 2>/dev/null || {
     git clone https://github.com/vinceliuice/Fluent-icon-theme.git /tmp/Fluent-icon-theme
     cd /tmp/Fluent-icon-theme
     ./install.sh
 }
 
-echo -e "${YELLOW}[3/5] Instalando cursores Fluent...${NC}"
+echo -e "${YELLOW}[4/6] Instalando cursores Fluent...${NC}"
 $AUR_HELPER -S --needed --noconfirm fluent-cursor-theme-git 2>/dev/null || {
     git clone https://github.com/vinceliuice/Fluent-cursor-theme.git /tmp/Fluent-cursor-theme
     cd /tmp/Fluent-cursor-theme
     ./install.sh
 }
 
-echo -e "${YELLOW}[4/5] Instalando tema GTK Fluent...${NC}"
+echo -e "${YELLOW}[5/6] Instalando tema GTK Fluent...${NC}"
 $AUR_HELPER -S --needed --noconfirm fluent-gtk-theme-git 2>/dev/null || {
     git clone https://github.com/vinceliuice/Fluent-gtk-theme.git /tmp/Fluent-gtk-theme
     cd /tmp/Fluent-gtk-theme
     ./install.sh -c dark
 }
 
-echo -e "${YELLOW}[5/5] Instalando tema SDDM Win11...${NC}"
+echo -e "${YELLOW}[6/6] Instalando tema SDDM Win11...${NC}"
 $AUR_HELPER -S --needed --noconfirm sddm-theme-win11 2>/dev/null || {
     git clone https://github.com/yeyushengfan258/sddm-win11-theme.git /tmp/sddm-win11-theme
     cd /tmp/sddm-win11-theme
@@ -177,6 +182,7 @@ echo -e "${GREEN}║         ¡Instalación completa!       ║${NC}"
 echo -e "${GREEN}╚══════════════════════════════════════╝${NC}"
 echo ""
 echo "Temas instalados:"
+echo "  • Fuente: Segoe UI Variable"
 echo "  • Plasma: Win11OS-dark"
 echo "  • Iconos: Fluent"
 echo "  • Cursor: Fluent-dark-cursors"
