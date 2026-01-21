@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # KDE Rice Installer - Windows 11 Style
-# Solo visual: temas, iconos, cursores, SDDM
+# Visual: temas, iconos, cursores, SDDM, lock screen, formatos
 
 set -e
 
@@ -38,7 +38,10 @@ fi
 echo -e "${GREEN}Usando $AUR_HELPER como AUR helper${NC}"
 echo ""
 
-# Instalar temas
+# ============================================
+# INSTALAR TEMAS
+# ============================================
+
 echo -e "${YELLOW}[1/5] Instalando tema Plasma Win11OS...${NC}"
 $AUR_HELPER -S --needed --noconfirm win11os-kde-theme-git 2>/dev/null || {
     echo "Instalando desde git..."
@@ -75,6 +78,10 @@ $AUR_HELPER -S --needed --noconfirm sddm-theme-win11 2>/dev/null || {
     sudo ./install.sh
 }
 
+# ============================================
+# APLICAR TEMAS
+# ============================================
+
 echo ""
 echo -e "${YELLOW}Aplicando temas...${NC}"
 
@@ -93,6 +100,77 @@ echo -e "${YELLOW}Configurando SDDM...${NC}"
 sudo mkdir -p /etc/sddm.conf.d
 echo -e "[Theme]\nCurrent=win11-sddm-theme" | sudo tee /etc/sddm.conf.d/theme.conf > /dev/null
 
+# ============================================
+# CONFIGURAR LOCK SCREEN
+# ============================================
+
+echo -e "${YELLOW}Configurando lock screen...${NC}"
+
+mkdir -p ~/.config
+
+cat > ~/.config/kscreenlockerrc << 'EOF'
+[Daemon]
+Autolock=true
+LockOnResume=true
+Timeout=5
+
+[Greeter]
+Theme=com.github.yeyushengfan258.Win11OS-dark
+WallpaperPlugin=org.kde.image
+
+[Greeter][LnF][General]
+font=Segoe UI Variable,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+showMediaControls=true
+EOF
+
+# ============================================
+# CONFIGURAR FORMATO FECHA/HORA
+# ============================================
+
+echo -e "${YELLOW}Configurando formato de fecha (dd/MM/yyyy)...${NC}"
+
+# Buscar y actualizar el reloj digital en el panel
+if [ -f ~/.config/plasma-org.kde.plasma.desktop-appletsrc ]; then
+    # Backup
+    cp ~/.config/plasma-org.kde.plasma.desktop-appletsrc ~/.config/plasma-org.kde.plasma.desktop-appletsrc.bak
+
+    # Agregar configuración de fecha al reloj (si existe la sección)
+    if grep -q "plugin=org.kde.plasma.digitalclock" ~/.config/plasma-org.kde.plasma.desktop-appletsrc; then
+        # Usar kwriteconfig6 para configurar el reloj
+        kwriteconfig6 --file ~/.config/plasma-org.kde.plasma.desktop-appletsrc \
+            --group "Containments" --group "2" --group "Applets" --group "21" --group "Configuration" --group "Appearance" \
+            --key "customDateFormat" "dd/MM/yyyy" 2>/dev/null || true
+        kwriteconfig6 --file ~/.config/plasma-org.kde.plasma.desktop-appletsrc \
+            --group "Containments" --group "2" --group "Applets" --group "21" --group "Configuration" --group "Appearance" \
+            --key "dateFormat" "custom" 2>/dev/null || true
+        kwriteconfig6 --file ~/.config/plasma-org.kde.plasma.desktop-appletsrc \
+            --group "Containments" --group "2" --group "Applets" --group "21" --group "Configuration" --group "Appearance" \
+            --key "showDate" "true" 2>/dev/null || true
+    fi
+fi
+
+# ============================================
+# CONFIGURAR PANEL AUTO-HIDE
+# ============================================
+
+echo -e "${YELLOW}Configurando panel (auto-hide, floating)...${NC}"
+
+if [ -f ~/.config/plasmashellrc ]; then
+    cp ~/.config/plasmashellrc ~/.config/plasmashellrc.bak
+fi
+
+# Configurar panel para auto-hide
+kwriteconfig6 --file ~/.config/plasmashellrc \
+    --group "PlasmaViews" --group "Panel 2" \
+    --key "floating" "1" 2>/dev/null || true
+kwriteconfig6 --file ~/.config/plasmashellrc \
+    --group "PlasmaViews" --group "Panel 2" \
+    --key "panelVisibility" "1" 2>/dev/null || true
+
+# ============================================
+# FINALIZAR
+# ============================================
+
 echo ""
 echo -e "${GREEN}╔══════════════════════════════════════╗${NC}"
 echo -e "${GREEN}║         ¡Instalación completa!       ║${NC}"
@@ -105,6 +183,10 @@ echo "  • Cursor: Fluent-dark-cursors"
 echo "  • GTK: Fluent-Dark"
 echo "  • SDDM: win11-sddm-theme"
 echo ""
-echo -e "${YELLOW}Reinicia sesión o ejecuta:${NC}"
-echo "  kquitapp6 plasmashell && kstart plasmashell"
+echo "Configuraciones aplicadas:"
+echo "  • Lock screen: Win11OS theme + Segoe UI font"
+echo "  • Fecha: dd/MM/yyyy (formato mundial)"
+echo "  • Panel: auto-hide + floating"
+echo ""
+echo -e "${YELLOW}Reinicia sesión para aplicar todos los cambios${NC}"
 echo ""
