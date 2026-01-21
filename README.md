@@ -17,11 +17,15 @@ cd KdeRice
 
 | Componente | Tema |
 |------------|------|
+| Fuente | Segoe UI Variable |
 | Plasma | Win11OS-dark |
 | Iconos | Fluent |
 | Cursor | Fluent-dark-cursors |
 | GTK | Fluent-Dark |
 | SDDM (Login) | win11-sddm-theme |
+| Lock Screen | Win11OS + Segoe UI |
+| Panel | Auto-hide + Floating |
+| Fecha | dd/MM/yyyy |
 
 ## Requisitos
 
@@ -34,6 +38,9 @@ cd KdeRice
 Si prefieres instalar manualmente:
 
 ```bash
+# Fuente
+yay -S ttf-segoe-ui-variable
+
 # Tema Plasma
 yay -S win11os-kde-theme-git
 
