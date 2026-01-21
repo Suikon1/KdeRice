@@ -1,38 +1,61 @@
-# KDE Plasma Rice
+# KDE Plasma Rice - Windows 11 Style
 
-Personal KDE Plasma 6 configuration backup with Windows 11 style theme.
+Rice visual para KDE Plasma con estilo Windows 11.
 
-## Contents
+![Arch Linux](https://img.shields.io/badge/Arch-Linux-blue?logo=archlinux)
+![KDE Plasma](https://img.shields.io/badge/KDE-Plasma%206-blue?logo=kde)
 
-### Config Files (`.config/`)
-- `plasma*` - Plasma shell, panel, applets, notifications
-- `k*` - KDE global settings, shortcuts, kwin, lock screen
-- `gtk-*` - GTK theme settings for Qt/KDE apps
-- `autostart/` - Autostart entries
-
-### Scripts (`.local/`)
-- `bin/kde-random-wallpaper.sh` - Random wallpaper script
-- `share/applications/kde-random-wallpaper.desktop` - Desktop entry for shortcut
-
-## Key Features
-- Win11OS-dark theme
-- Auto-hide panel
-- Custom keyboard shortcuts (Meta+B Firefox, Meta+Space Terminal, etc.)
-- Random wallpaper on login
-- Fingerprint authentication support
-
-## Installation
+## Instalación Rápida
 
 ```bash
-cp -r .config/* ~/.config/
-cp -r .local/* ~/.local/
+git clone https://github.com/Suikon1/KdeRice.git
+cd KdeRice
+./install.sh
 ```
 
-## Shortcuts
-- `Meta+Space` - Terminal (Ghostty)
-- `Meta+E` - File Manager (Nemo)
-- `Meta+B` - Firefox
-- `Meta+Q` - Close window
-- `Meta+L` - Lock screen
-- `Meta+Shift+W` - Random wallpaper
-- `Meta+Shift+C` - Claude Code
+## Qué Incluye
+
+| Componente | Tema |
+|------------|------|
+| Plasma | Win11OS-dark |
+| Iconos | Fluent |
+| Cursor | Fluent-dark-cursors |
+| GTK | Fluent-Dark |
+| SDDM (Login) | win11-sddm-theme |
+
+## Requisitos
+
+- Arch Linux (o derivados)
+- KDE Plasma 6
+- yay o paru (se instala automáticamente si no existe)
+
+## Instalación Manual
+
+Si prefieres instalar manualmente:
+
+```bash
+# Tema Plasma
+yay -S win11os-kde-theme-git
+
+# Iconos
+yay -S fluent-icon-theme-git
+
+# Cursores
+yay -S fluent-cursor-theme-git
+
+# GTK
+yay -S fluent-gtk-theme-git
+
+# SDDM
+yay -S sddm-theme-win11
+```
+
+## Capturas
+
+*Próximamente*
+
+## Créditos
+
+- [Win11OS-kde](https://github.com/yeyushengfan258/Win11OS-kde) - yeyushengfan258
+- [Fluent-icon-theme](https://github.com/vinceliuice/Fluent-icon-theme) - vinceliuice
+- [Fluent-gtk-theme](https://github.com/vinceliuice/Fluent-gtk-theme) - vinceliuice
